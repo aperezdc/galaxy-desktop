@@ -1,0 +1,6 @@
+#! /bin/sh
+set -e
+S="$(dirname "$1")/../share/gnome-session/sessions"
+if test -d "$S" ; then
+	realpath "$S"
+fi

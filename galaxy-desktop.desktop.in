@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Galaxy Desktop
+Comment=This session logs you into the Budgie Desktop
+Exec=@prefix@/bin/galaxy-desktop
+TryExec=@prefix@/bin/galaxy-desktop
+Icon=
+Type=Application
+Desktop=Galaxy;GNOME
