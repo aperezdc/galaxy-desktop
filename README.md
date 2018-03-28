@@ -64,3 +64,8 @@ shortcomings you may want to be aware of — this is not just for anybody!
   icons, clock/calendar, and has an applications menu. Bonus points if it
   can take the applications menus using D-Bus and display them.
 
+
+License
+-------
+
+[MIT](COPYING).
