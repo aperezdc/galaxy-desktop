@@ -48,6 +48,8 @@ Additionally, I tend to use the following as well:
 - [Synapse](https://launchpad.net/synapse-project). While
   [ULauncher](https://ulauncher.io/) looks sleeker and is better maintained,
   it takes more than double the amoun of memory compared to Synapse.
+- The [Pantheon Screenshot](https://github.com/elementary/screenshot-tool)
+  tool.
 
 
 Shortcomings
