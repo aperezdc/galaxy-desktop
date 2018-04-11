@@ -2,7 +2,7 @@
 set -e
 
 if test "$1" = '-h' || test "$1" = '--help' || test "$1" = '--version' ; then
-	echo 'galaxy-desktop @version@'
+	echo 'galaxy-desktop @VERSION@'
 	exit 0
 fi
 
@@ -11,4 +11,4 @@ if test -z "${XDG_CURRENT_DESKTOP}" ; then
   export XDG_CURRENT_DESKTOP
 fi
 
-exec '@gnome_session_path@' --session=galaxy-desktop "$@"
+exec '@GNOME_SESSION_PATH@' --session=galaxy-desktop "$@"
