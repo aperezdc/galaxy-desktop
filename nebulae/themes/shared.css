@@ -1,0 +1,14 @@
+/*
+ * shared.css
+ * Copyright (C) 2018 Adrian Perez
+ *
+ * Distributed under terms of the MIT license.
+ */
+
+nb-attention-dialog {
+	border-radius: 5px;
+}
+
+nb-attention-dialog decoration {
+	border-radius: 5px;
+}

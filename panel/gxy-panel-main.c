@@ -45,7 +45,7 @@ on_handle_local_options (GApplication *app,
 int
 main (int argc, char *argv[])
 {
-    g_autoptr(GApplication) app = G_APPLICATION (gxy_panel_application_get ());
+    g_autoptr(GApplication) app = G_APPLICATION (gxy_panel_application_get_instance ());
     g_application_add_main_option_entries (app, cli_options);
     g_signal_connect (app, "handle-local-options",
                       G_CALLBACK (on_handle_local_options), NULL);

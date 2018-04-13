@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <dazzle.h>
+#include "nb-application.h"
 
 G_BEGIN_DECLS
 
@@ -16,13 +16,13 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (GxyPanelApplication,
                       gxy_panel_application,
                       GXY, PANEL_APPLICATION,
-                      DzlApplication)
+                      NbApplication)
 
-struct _GxyPanelApplicationClass
+struct _NbPanelApplicationClass
 {
-    DzlApplicationClass parent_class;
+    NbApplicationClass parent_class;
 };
 
-GxyPanelApplication* gxy_panel_application_get (void);
+NB_APPLICATION_DECLARE_SINGLETON (gxy_panel_application);
 
 G_END_DECLS

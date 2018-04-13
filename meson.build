@@ -10,9 +10,15 @@ project('galaxy-desktop', 'c',
 
 gtk3_version_req   = '>=3.22'
 dazzle_version_req = '>=3.28'
+polkit_version_req = '>=0.105'
+
+rsrc_base = '/org/perezdecastro/galaxy'
+appid_base = 'org.perezdecastro.galaxy'
 
 gtk3_dep   = dependency('gtk+-3.0', version: gtk3_version_req)
 dazzle_dep = dependency('libdazzle-1.0', version: dazzle_version_req)
+
+gnome = import('gnome')
 
 gnome_session_path = find_program('gnome-session').path()
 gnome_session_sessions_path = run_command('meson/calc-sessions-path', gnome_session_path).stdout().strip()
@@ -34,5 +40,9 @@ config.set_quoted('PREFIX_STRING', get_option('prefix'))
 config_file = configure_file(output: 'gxy-config.h', configuration: config)
 config_file_include_dirs = include_directories('.')
 
+add_project_arguments('-Wall', '-Wextra', language: 'c')
+
+subdir('nebulae')
 subdir('panel')
+subdir('pkagent')
 subdir('session-launcher')

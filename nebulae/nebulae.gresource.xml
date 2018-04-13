@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gresources>
+	<gresource prefix="/org/perezdecastro/galaxy/nebulae">
+		<file preprocess="xml-stripblanks">attention-dialog.ui</file>
+		<file>themes/shared.css</file>
+	</gresource>
+</gresources>
