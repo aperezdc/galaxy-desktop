@@ -111,7 +111,9 @@
                 <property name="label" translatable="yes">Accept</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
+                <property name="receives_default">False</property>
                 <signal name="clicked" handler="on_accept_button_clicked" swapped="no"/>
                 <style>
                   <class name="suggested-action"/>
