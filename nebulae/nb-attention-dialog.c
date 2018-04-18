@@ -26,8 +26,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (NbAttentionDialog,
                             nb_attention_dialog,
                             GTK_TYPE_APPLICATION_WINDOW)
 
-#define PRIV(n, o) \
-    NbAttentionDialogPrivate *n = nb_attention_dialog_get_instance_private (o)
+#define nb_attention_dialog_get_instance_private(o) \
+    ((NbAttentionDialogPrivate*) nb_attention_dialog_get_instance_private (o))
 
 enum
 {
@@ -87,7 +87,8 @@ nb_attention_dialog_constructed (GObject *object)
     gtk_window_set_keep_above (GTK_WINDOW (object), TRUE);
     gtk_application_window_set_show_menubar (GTK_APPLICATION_WINDOW (object), FALSE);
 
-    PRIV (priv, NB_ATTENTION_DIALOG (object));
+    auto priv = nb_attention_dialog_get_instance_private (NB_ATTENTION_DIALOG (object));
+
     g_object_bind_property (object, "title", priv->title, "label",
                             G_BINDING_SYNC_CREATE);
     g_object_bind_property (object, "icon-name", priv->image_icon, "icon-name",
@@ -165,8 +166,7 @@ const char*
 nb_attention_dialog_get_message (NbAttentionDialog *dialog)
 {
     g_return_val_if_fail (NB_IS_ATTENTION_DIALOG (dialog), NULL);
-
-    PRIV (priv, dialog);
+    auto priv = nb_attention_dialog_get_instance_private (dialog);
     return gtk_label_get_text (priv->message);
 }
 
@@ -176,8 +176,8 @@ nb_attention_dialog_set_message (NbAttentionDialog *dialog,
                                  const char        *message)
 {
     g_return_if_fail (NB_IS_ATTENTION_DIALOG (dialog));
+    auto priv = nb_attention_dialog_get_instance_private (dialog);
 
-    PRIV (priv, dialog);
     if (g_strcmp0 (gtk_label_get_text (priv->message), message) == 0)
         return;
 
@@ -190,9 +190,7 @@ GtkWidget*
 nb_attention_dialog_get_extra_widget (NbAttentionDialog *dialog)
 {
     g_return_val_if_fail (NB_IS_ATTENTION_DIALOG (dialog), NULL);
-
-    PRIV (priv, dialog);
-    return priv->extra_widget;
+    return nb_attention_dialog_get_instance_private (dialog)->extra_widget;
 }
 
 
@@ -201,8 +199,7 @@ nb_attention_dialog_set_extra_widget (NbAttentionDialog *dialog,
                                       GtkWidget         *widget)
 {
     g_return_if_fail (NB_IS_ATTENTION_DIALOG (dialog));
-
-    PRIV (priv, dialog);
+    auto priv = nb_attention_dialog_get_instance_private (dialog);
 
     if (priv->extra_widget == widget)
         return;
