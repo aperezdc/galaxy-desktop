@@ -22,6 +22,17 @@ G_DEFINE_TYPE (GxyAuthPanel, gxy_auth_panel, GTK_TYPE_GRID)
 
 
 static void
+gxy_auth_panel_constructed (GObject *object)
+{
+    G_OBJECT_CLASS (gxy_auth_panel_parent_class)->constructed (object);
+
+    auto panel = GXY_AUTH_PANEL (object);
+    gtk_container_set_focus_child (GTK_CONTAINER (panel),
+                                   GTK_WIDGET (panel->password_entry));
+}
+
+
+static void
 gxy_auth_panel_class_init (GxyAuthPanelClass *klass)
 {
     auto widget_class = GTK_WIDGET_CLASS (klass);
@@ -29,6 +40,9 @@ gxy_auth_panel_class_init (GxyAuthPanelClass *klass)
     gtk_widget_class_bind_template_child (widget_class, GxyAuthPanel, identities);
     gtk_widget_class_bind_template_child (widget_class, GxyAuthPanel, password_entry);
     gtk_widget_class_bind_template_child (widget_class, GxyAuthPanel, error);
+
+    auto object_class = G_OBJECT_CLASS (klass);
+    object_class->constructed = gxy_auth_panel_constructed;
 }
 
 

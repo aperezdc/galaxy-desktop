@@ -68,18 +68,18 @@ gxy_agent_init (GxyAgent *agent)
 static GtkApplicationWindow*
 on_create_window (NbApplication *app, G_GNUC_UNUSED void* userdata)
 {
-    g_autoptr(GxyAuthPanel) panel =
-        g_object_new (GXY_TYPE_AUTH_PANEL, NULL);
-
+    GtkWidget *panel = g_object_new (GXY_TYPE_AUTH_PANEL, NULL);
     g_autoptr(NbAttentionDialog) window =
         g_object_new (NB_TYPE_ATTENTION_DIALOG,
                       "title", "Authentication Required",
                       "message", "Authentication is required for this resource",
                       "icon-name", "dialog-password",
-                      "extra-widget", g_steal_pointer (&panel),
+                      "extra-widget", panel,
                       NULL);
 
     gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (window));
+    gtk_widget_grab_focus (panel);
+
     return g_steal_pointer (&window);
 }
 
