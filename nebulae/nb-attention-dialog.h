@@ -21,6 +21,8 @@ G_DECLARE_DERIVABLE_TYPE (NbAttentionDialog,
 struct _NbAttentionDialogClass
 {
     GtkApplicationWindowClass parent_class;
+
+    void (*response) (NbAttentionDialog*, int response_id);
 };
 
 

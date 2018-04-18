@@ -65,6 +65,23 @@ gxy_agent_init (GxyAgent *agent)
 }
 
 
+static void
+on_dialog_response (NbAttentionDialog *dialog, int response)
+{
+    switch (response) {
+        case GTK_RESPONSE_ACCEPT:
+            // TODO: Do more stuff.
+
+        case GTK_RESPONSE_REJECT:
+            gtk_window_close (GTK_WINDOW (dialog));
+            break;
+
+        default:
+            g_assert_not_reached ();
+    }
+}
+
+
 static GtkApplicationWindow*
 on_create_window (NbApplication *app, G_GNUC_UNUSED void* userdata)
 {
@@ -79,6 +96,8 @@ on_create_window (NbApplication *app, G_GNUC_UNUSED void* userdata)
 
     gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (window));
     gtk_widget_grab_focus (panel);
+
+    g_signal_connect (window, "response", G_CALLBACK (on_dialog_response), NULL);
 
     return g_steal_pointer (&window);
 }

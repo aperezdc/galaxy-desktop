@@ -31,6 +31,15 @@ G_DEFINE_TYPE_WITH_PRIVATE (NbAttentionDialog,
 
 enum
 {
+    RESPONSE,
+    N_SIGNALS,
+};
+
+static int s_signals[N_SIGNALS] = { 0, };
+
+
+enum
+{
     PROP_0,
     PROP_MESSAGE,
     PROP_EXTRA_WIDGET,
@@ -101,14 +110,14 @@ nb_attention_dialog_constructed (GObject *object)
 static void
 on_accept_button_clicked (GtkButton *button, NbAttentionDialog *dialog)
 {
-    g_print ("%s\n", __func__);
+    g_signal_emit (dialog, s_signals[RESPONSE], 0, GTK_RESPONSE_ACCEPT, button);
 }
 
 
 static void
 on_cancel_button_clicked (GtkButton *button, NbAttentionDialog *dialog)
 {
-    g_print ("%s\n", __func__);
+    g_signal_emit (dialog, s_signals[RESPONSE], 0, GTK_RESPONSE_REJECT, button);
 }
 
 
@@ -152,6 +161,16 @@ nb_attention_dialog_class_init (NbAttentionDialogClass *klass)
     g_object_class_install_properties (object_class,
                                        N_PROPERTIES,
                                        s_properties);
+
+    s_signals[RESPONSE] =
+        g_signal_new ("response",
+                      NB_TYPE_ATTENTION_DIALOG,
+                      G_SIGNAL_RUN_LAST,
+                      G_STRUCT_OFFSET (NbAttentionDialogClass, response),
+                      NULL, NULL,
+                      NULL,
+                      G_TYPE_NONE, 1,
+                      G_TYPE_INT);
 }
 
 
