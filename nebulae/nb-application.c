@@ -24,20 +24,13 @@ static int s_signals[N_SIGNALS] = { 0, };
 
 
 static inline GtkApplicationWindow*
-nb_application_create_window_default (NbApplication *app)
+nb_application_create_window (NbApplication *app)
 {
-    // Try using the signal
-    GtkApplicationWindow *new_window = NULL;
-
-    g_signal_emit (app, s_signals[CREATE_WINDOW], 0, &new_window);
-    if (new_window)
-        return new_window;
-
-    // Warn if the signal wasn't handled.
+    // Warn once if signal wasn't handled and virtual method not overriden.
     GType app_type = G_TYPE_FROM_INSTANCE (app);
     void *flag = g_type_get_qdata (app_type, create_window_warning_quark ());
     if (!flag) {
-        g_warning ("Class %s does not override create_window(),"
+        g_warning ("Class %s does not implement create_window(),"
                    " nor the ::create-window signal was handled",
                    g_type_name (app_type));
 
@@ -46,12 +39,6 @@ nb_application_create_window_default (NbApplication *app)
         g_type_set_qdata (app_type, create_window_warning_quark (), flag);
     }
     return NULL;
-}
-
-static inline GtkWindow*
-nb_application_create_window (NbApplication *app)
-{
-    return GTK_WINDOW (NB_APPLICATION_GET_CLASS (app)->create_window (app));
 }
 
 
@@ -88,7 +75,7 @@ nb_application_activate (GApplication *app)
 
     // Try to create a window.
     if (!window)
-        window = nb_application_create_window (NB_APPLICATION (app));
+        g_signal_emit (app, s_signals[CREATE_WINDOW], 0, &window);
 
     if (window)
         gtk_window_present (window);
@@ -104,14 +91,14 @@ nb_application_class_init (NbApplicationClass *klass)
     auto app_class = G_APPLICATION_CLASS (klass);
     app_class->activate = nb_application_activate;
 
-    klass->create_window = nb_application_create_window_default;
+    klass->create_window = nb_application_create_window;
 
     s_signals[CREATE_WINDOW] =
         g_signal_new ("create-window",
                       NB_TYPE_APPLICATION,
                       G_SIGNAL_RUN_LAST,
-                      0,
-                      NULL,
+                      G_STRUCT_OFFSET (NbApplicationClass, create_window),
+                      g_signal_accumulator_first_wins,
                       NULL,
                       NULL,
                       GTK_TYPE_APPLICATION_WINDOW,
